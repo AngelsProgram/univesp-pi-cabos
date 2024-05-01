@@ -7,25 +7,11 @@ import Button from "react-bootstrap/Button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
+import type { TCabo } from "#/types/cabo";
 import { insertItem } from "./action";
 
-type Inputs = {
-  id: number;
-  nome: string;
-  color: string;
-  raio: number;
-  tipo: string;
-  bitola: number;
-  price_buy: number;
-  price_sell_liquid: number;
-  price_sell_brute: number;
-  quantity: number;
-  value: number;
-  acumulado: number;
-};
-
 export default function Page() {
-  const { register } = useForm<Inputs>();
+  const { register } = useForm<TCabo>();
   return (
     <Container>
       <Form action={insertItem}>

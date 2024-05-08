@@ -7,17 +7,30 @@ import Button from "react-bootstrap/Button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import type { TCabo } from "#/types/cabo";
+import { PrismaClient } from "@prisma/client";
+import { Produto } from "@prisma/client";
 import { insertItem } from "./action";
 
+const prisma = new PrismaClient();
+
 export default function Page() {
-  const { register } = useForm<TCabo>();
+  const { register, handleSubmit } = useForm<Produto>();
+
+  const onSubmit: SubmitHandler<Produto> = async function (data) {
+    const produto = await prisma.produto.create({ data });
+  };
+
   return (
     <Container>
-      <Form action={insertItem}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group>
           <Form.Label>
             ID: <Form.Control type="number" {...register("id")} min={0} />
+          </Form.Label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>
+            Tipo comercial: <Form.Control type="text" {...register("tipo")} />
           </Form.Label>
         </Form.Group>
         <Form.Group>
@@ -27,7 +40,7 @@ export default function Page() {
         </Form.Group>
         <Form.Group>
           <Form.Label>
-            Cor: <Form.Control type="text" {...register("color")} />
+            Cor: <Form.Control type="text" {...register("cor")} />
           </Form.Label>
         </Form.Group>
         <Form.Group>
@@ -38,7 +51,8 @@ export default function Page() {
         </Form.Group>
         <Form.Group>
           <Form.Label>
-            Tipo comercial: <Form.Control type="text" {...register("tipo")} />
+            Unidade da medida da bitola:{" "}
+            <Form.Control type="number" step="any" {...register("isolacao")} />
           </Form.Label>
         </Form.Group>
         <Form.Group>
@@ -50,7 +64,11 @@ export default function Page() {
         <Form.Group>
           <Form.Label>
             Preço de compra sem os impostos:{" "}
-            <Form.Control type="number" step="any" {...register("price_buy")} />
+            <Form.Control
+              type="number"
+              step="any"
+              {...register("precoCompra")}
+            />
           </Form.Label>
         </Form.Group>
         <Form.Group>
@@ -61,7 +79,7 @@ export default function Page() {
               <Form.Control
                 type="number"
                 step="any"
-                {...register("price_sell_liquid")}
+                {...register("precoVendaLiquido")}
                 disabled
               />
             </InputGroup>
@@ -75,7 +93,7 @@ export default function Page() {
               <Form.Control
                 type="number"
                 step="any"
-                {...register("price_sell_brute")}
+                {...register("precoVendaImposto")}
                 disabled
               />
             </InputGroup>
@@ -85,29 +103,9 @@ export default function Page() {
           <Form.Label>
             Quantidade:
             <InputGroup>
-              <Form.Control type="number" name="quantity" />{" "}
+              <Form.Control type="number" {...register("quantidade")} />{" "}
               <InputGroup.Text>metros</InputGroup.Text>
             </InputGroup>
-          </Form.Label>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>
-            Valor do item em estoque:
-            <InputGroup>
-              <InputGroup.Text>R$</InputGroup.Text>
-              <Form.Control type="number" step="any" {...register("value")} />
-            </InputGroup>
-          </Form.Label>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>
-            Acumulado do estoque:{" "}
-            <Form.Control
-              type="number"
-              step="any"
-              {...register("acumulado")}
-              disabled
-            />
           </Form.Label>
         </Form.Group>
         <Button variant="danger" type="reset">

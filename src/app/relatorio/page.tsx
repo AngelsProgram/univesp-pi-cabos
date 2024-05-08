@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+import { PrismaClient } from "@prisma/client";
+import type { Produto } from "@prisma/client";
 
 import {
   Column,
@@ -14,7 +16,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import type { TCabo } from "#/types/cabo";
+// import type { TCabo } from "#/types/cabo";
+
+const prisma = new PrismaClient();
+
+async function getData() {
+  const data = await prisma.produto.findMany({ include: { Venda: true } });
+  return data;
+}
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -30,7 +39,7 @@ export default function Page() {
     []
   );
 
-  const columns = React.useMemo<ColumnDef<TCabo, any>[]>(
+  const columns = React.useMemo<ColumnDef<Produto, any>[]>(
     () => [
       {
         accessorKey: "id",
@@ -40,11 +49,18 @@ export default function Page() {
         // header: "Full Name",
       },
       {
+        accessorKey: "tipo",
+        cell: (info) => info.getValue(),
+        meta: {
+          filterVariant: "select",
+        },
+      },
+      {
         accessorKey: "nome",
         cell: (info) => info.getValue(),
       },
       {
-        accessorKey: "color",
+        accessorKey: "cor",
         cell: (info) => info.getValue(),
         meta: {
           filterVariant: "select",
@@ -58,31 +74,38 @@ export default function Page() {
         },
       },
       {
-        accessorKey: "tipo",
-        cell: (info) => info.getValue(),
-        meta: {
-          filterVariant: "select",
-        },
-      },
-      {
-        accessorKey: "price_buy",
-        header: "Preço venda",
+        accessorKey: "isolacao",
         cell: (info) => info.getValue(),
         meta: {
           filterVariant: "range",
         },
       },
       {
-        accessorKey: "price_sell_liquid",
-        header: "Preço compra liquido",
+        accessorKey: "bitola",
         cell: (info) => info.getValue(),
         meta: {
           filterVariant: "range",
         },
       },
       {
-        accessorKey: "price_sell_brute",
-        header: "Preço compra bruto",
+        accessorKey: "precoCompra",
+        header: "Preço Compra",
+        cell: (info) => info.getValue(),
+        meta: {
+          filterVariant: "range",
+        },
+      },
+      {
+        accessorKey: "precoVendaLiquido",
+        header: "Preço venda liquido",
+        cell: (info) => info.getValue(),
+        meta: {
+          filterVariant: "range",
+        },
+      },
+      {
+        accessorKey: "precoVendaImposto",
+        header: "Preço venda bruto",
         cell: (info) => info.getValue(),
         meta: {
           filterVariant: "range",
@@ -95,11 +118,19 @@ export default function Page() {
           filterVariant: "range",
         },
       },
+      {
+        accessorKey: "Venda",
+        cell: (info) => info.getValue(),
+      },
+      {
+        header: "Ações",
+        cell: (info) => info.getValue(),
+      },
     ],
     []
   );
 
-  const [data, setData] = React.useState<TCabo[]>([]);
+  const [data, setData] = React.useState<Produto[]>([]);
 
   const table = useReactTable({
     data,

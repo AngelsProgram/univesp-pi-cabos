@@ -1,4 +1,6 @@
 "use server";
+// import { PrismaClient } from "@prisma/client";
+// const prisma = new PrismaClient();
 
 export async function insertItem(formData: FormData) {
   const obj = {
@@ -6,5 +8,5 @@ export async function insertItem(formData: FormData) {
     description: formData.get("nome"),
     quantity: formData.get("quantity"),
   };
-  console.log(obj);
+  // prisma.produto.create({ data: {} });
 }

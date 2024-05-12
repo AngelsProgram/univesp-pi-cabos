@@ -7,17 +7,17 @@ import Button from "react-bootstrap/Button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { PrismaClient } from "@prisma/client";
-import { Produto } from "@prisma/client";
-import { insertItem } from "./action";
-
-const prisma = new PrismaClient();
+import type { Produto } from "@prisma/client";
+import { insertProduto } from "./action";
 
 export default function Page() {
-  const { register, handleSubmit } = useForm<Produto>();
+  const { register, handleSubmit, reset, setValue } = useForm<Produto>();
 
   const onSubmit: SubmitHandler<Produto> = async function (data) {
-    const produto = await prisma.produto.create({ data });
+    insertProduto(data).then((value) => {
+      if (!value) console.error("Erro with database");
+      reset();
+    });
   };
 
   return (
@@ -25,7 +25,13 @@ export default function Page() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group>
           <Form.Label>
-            ID: <Form.Control type="number" {...register("id")} min={0} />
+            ID:{" "}
+            <Form.Control
+              type="number"
+              {...register("id", { valueAsNumber: true })}
+              min={0}
+              disabled
+            />
           </Form.Label>
         </Form.Group>
         <Form.Group>
@@ -46,19 +52,31 @@ export default function Page() {
         <Form.Group>
           <Form.Label>
             Raio mínimo de dobra dentro do conduite:{" "}
-            <Form.Control type="number" step="any" {...register("raio")} />
+            <Form.Control
+              type="number"
+              step="any"
+              {...register("raio", { valueAsNumber: true })}
+            />
+          </Form.Label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>
+            Isolação:{" "}
+            <Form.Control
+              type="number"
+              step="any"
+              {...register("isolacao", { valueAsNumber: true })}
+            />
           </Form.Label>
         </Form.Group>
         <Form.Group>
           <Form.Label>
             Unidade da medida da bitola:{" "}
-            <Form.Control type="number" step="any" {...register("isolacao")} />
-          </Form.Label>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>
-            Unidade da medida da bitola:{" "}
-            <Form.Control type="number" step="any" {...register("bitola")} />
+            <Form.Control
+              type="number"
+              step="any"
+              {...register("bitola", { valueAsNumber: true })}
+            />
           </Form.Label>
         </Form.Group>
         <Form.Group>
@@ -66,8 +84,16 @@ export default function Page() {
             Preço de compra sem os impostos:{" "}
             <Form.Control
               type="number"
-              step="any"
-              {...register("precoCompra")}
+              step={0.01}
+              {...register("precoCompra", { valueAsNumber: true })}
+              onChange={(event) => {
+                let value: any;
+                value = parseFloat(event.target.value);
+                value /= 0.6;
+                value = value.toFixed(2);
+                value = parseFloat(value);
+                setValue("precoVendaLiquido", value);
+              }}
             />
           </Form.Label>
         </Form.Group>
@@ -78,9 +104,16 @@ export default function Page() {
               <InputGroup.Text>R$</InputGroup.Text>
               <Form.Control
                 type="number"
-                step="any"
-                {...register("precoVendaLiquido")}
-                disabled
+                step={0.01}
+                {...register("precoVendaLiquido", { valueAsNumber: true })}
+                onChange={(event) => {
+                  let value: any;
+                  value = parseFloat(event.target.value);
+                  value /= 0.6;
+                  value = value.toFixed(2);
+                  value = parseFloat(value);
+                  setValue("precoVendaImposto", value);
+                }}
               />
             </InputGroup>
           </Form.Label>
@@ -92,9 +125,8 @@ export default function Page() {
               <InputGroup.Text>R$</InputGroup.Text>
               <Form.Control
                 type="number"
-                step="any"
-                {...register("precoVendaImposto")}
-                disabled
+                step={0.01}
+                {...register("precoVendaImposto", { valueAsNumber: true })}
               />
             </InputGroup>
           </Form.Label>
@@ -103,15 +135,20 @@ export default function Page() {
           <Form.Label>
             Quantidade:
             <InputGroup>
-              <Form.Control type="number" {...register("quantidade")} />{" "}
+              <Form.Control
+                type="number"
+                {...register("quantidade", { valueAsNumber: true })}
+              />{" "}
               <InputGroup.Text>metros</InputGroup.Text>
             </InputGroup>
           </Form.Label>
         </Form.Group>
-        <Button variant="danger" type="reset">
+        <Button variant="danger" onClick={() => reset()}>
           Limpar
         </Button>
-        <Button variant="warning">Editar</Button>
+        <Button variant="warning" disabled>
+          Editar
+        </Button>
         <Button variant="primary" type="submit">
           Cadastrar
         </Button>

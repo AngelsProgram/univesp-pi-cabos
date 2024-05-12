@@ -6,7 +6,8 @@ Esse projeto é referente ao projeto integrador, requisito da faculdade Univesp.
 
 ```bash
 npm install
-npx prisma db pull # apenas se o banco de dados ainda não existe
+# Arrume o .env file para o banco de dados
+npx prisma db push # apenas se o banco de dados ainda não existe
 npx prisma generate
 npm build
 ```

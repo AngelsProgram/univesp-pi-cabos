@@ -1,6 +1,9 @@
 "use server";
-// import { PrismaClient } from "@prisma/client";
-// const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
+import type { Produto } from "@prisma/client";
+import type { SubmitHandler } from "react-hook-form";
+
+const prisma = new PrismaClient();
 
 export async function insertItem(formData: FormData) {
   const obj = {
@@ -10,3 +13,14 @@ export async function insertItem(formData: FormData) {
   };
   // prisma.produto.create({ data: {} });
 }
+
+export const insertProduto: SubmitHandler<Produto> = async function (
+  data
+): Promise<Produto | undefined> {
+  try {
+    const produto = await prisma.produto.create({ data });
+    return produto;
+  } catch (error) {
+    return undefined;
+  }
+};

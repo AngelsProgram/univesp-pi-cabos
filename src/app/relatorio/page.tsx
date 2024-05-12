@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import { PrismaClient } from "@prisma/client";
 import type { Produto } from "@prisma/client";
+
+import { getData } from "./getData";
 
 import {
   Column,
@@ -17,13 +18,6 @@ import {
 } from "@tanstack/react-table";
 
 // import type { TCabo } from "#/types/cabo";
-
-const prisma = new PrismaClient();
-
-async function getData() {
-  const data = await prisma.produto.findMany({ include: { Venda: true } });
-  return data;
-}
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -131,6 +125,10 @@ export default function Page() {
   );
 
   const [data, setData] = React.useState<Produto[]>([]);
+
+  React.useEffect(() => {
+    getData().then((value) => setData(value));
+  }, []);
 
   const table = useReactTable({
     data,

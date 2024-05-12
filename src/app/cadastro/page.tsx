@@ -7,6 +7,8 @@ import Button from "react-bootstrap/Button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
+import Swal from "sweetalert2";
+
 import type { Produto } from "@prisma/client";
 import { insertProduto } from "./action";
 
@@ -15,7 +17,20 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<Produto> = async function (data) {
     insertProduto(data).then((value) => {
-      if (!value) console.error("Erro with database");
+      if (!value)
+        return Swal.fire({
+          title: "Error!",
+          text: "Ops... Aconteceu algum erro.",
+          icon: "error",
+          confirmButtonText: "Ok",
+          footer: "<a href=''>Entre em contato com um administrador</a>",
+        });
+      Swal.fire({
+        title: "Sucesso!",
+        text: "Produto cadastrado com sucesso.",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
       reset();
     });
   };

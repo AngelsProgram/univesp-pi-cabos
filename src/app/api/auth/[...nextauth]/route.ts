@@ -4,13 +4,13 @@ import * as NextAuth from "next-auth";
 import NextAuth_next from "next-auth/next";
 import { provider_credentials } from "./provider-credential";
 
-export const authOptions: NextAuth.AuthOptions = {
+const authOptions: NextAuth.AuthOptions = {
   providers: [provider_credentials],
   session: { strategy: "jwt", maxAge: 60 * 60 * 10 },
   // pages: { signOut: "/login" },
 };
 
-export const handler = NextAuth_next(authOptions);
+const handler = NextAuth_next(authOptions);
 
 // function auth(request: NextApiRequest, responde: NextApiResponse) {
 //   return await NextAuth(request, response, {});

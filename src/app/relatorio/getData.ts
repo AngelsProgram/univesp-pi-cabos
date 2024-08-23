@@ -4,6 +4,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function getData() {
-  const data = await prisma.produto.findMany({ include: { Venda: true } });
-  return data;
+  try {
+    const data = await prisma.produto.findMany({ include: { Venda: true } });
+    return data;
+  } catch (error) {
+    console.log("Error Acessing database");
+    return [{ id: 0, nome: "Error Database" }];
+  }
 }

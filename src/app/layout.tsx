@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./globals.css";
 
+import ProviderQuery from '#/components/ProviderQuery';
 import NextAuth, { getServerSession } from "next-auth";
 import SessionProvider from "#/components/SessionProvider";
 
@@ -24,12 +25,14 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <SessionProvider session={session}>
-      <html lang="en">
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
-      </html>
+      <ProviderQuery>
+        <html lang="en">
+          <body className={inter.className}>
+            <Header />
+            {children}
+          </body>
+        </html>
+      </ProviderQuery>
     </SessionProvider>
   );
 }

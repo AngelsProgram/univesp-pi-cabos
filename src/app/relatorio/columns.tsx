@@ -53,91 +53,91 @@ export const columnsD: ColumnDef<Produto, any>[] = [
       filterVariant: "select",
     },
   },
-  {
-    accessorKey: "raio",
-    cell: (info) => info.getValue(),
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "isolacao",
-    cell: (info) => info.getValue(),
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "bitola",
-    cell: (info) => info.getValue(),
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "precoCompra",
-    header: "Preço Compra",
-    cell: (info) => info.getValue(),
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "precoVendaLiquido",
-    header: "Preço venda liquido",
-    cell: (info) => info.getValue(),
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "precoVendaImposto",
-    header: "Preço venda bruto",
-    cell: (info) => info.getValue(),
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "quantidade",
-    header: "quantidade (disponível/total)",
-    // cell: (info) => {
-    //   const vendas: Venda[] = info.row.original?.Venda;
-    //   let vendido = vendas.reduce(
-    //     (total, item) => (total += item.quantidade),
-    //     0,
-    //   );
-    //   vendido = info.getValue() - vendido;
-    //   return `${vendido}/${info.getValue()}`;
-    // },
-    meta: {
-      filterVariant: "range",
-    },
-  },
-  {
-    accessorKey: "Venda",
-    cell: (info) => {
-      info.getValue().map((item: Venda) => {
-        return <div key={item.id}>{`${item.dia}: ${item.quantidade}`};</div>;
-      });
-    },
-  },
-  {
-    header: "Ações",
-    cell: (info) => {
-      return (
-        <ButtonGroup>
-          <Button variant="success">
-            <FaCartPlus />
-          </Button>
-          <Button
-            variant="danger"
-            onClick={() => showConfirm(info.row.original.id)}
-          >
-            <MdDeleteForever />
-          </Button>
-        </ButtonGroup>
-      );
-    },
-  },
+  // {
+  // accessorKey: "raio",
+  //   cell: (info) => info.getValue(),
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // {
+  //   accessorKey: "isolacao",
+  //   cell: (info) => info.getValue(),
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // {
+  //   accessorKey: "bitola",
+  //   cell: (info) => info.getValue(),
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // {
+  //   accessorKey: "precoCompra",
+  //   header: "Preço Compra",
+  //   cell: (info) => info.getValue(),
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // {
+  //   accessorKey: "precoVendaLiquido",
+  //   header: "Preço venda liquido",
+  //   cell: (info) => info.getValue(),
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // {
+  //   accessorKey: "precoVendaImposto",
+  //   header: "Preço venda bruto",
+  //   cell: (info) => info.getValue(),
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // {
+  //   accessorKey: "quantidade",
+  //   header: "quantidade (disponível/total)",
+  //   // cell: (info) => {
+  //   //   const vendas: Venda[] = info.row.original?.Venda;
+  //   //   let vendido = vendas.reduce(
+  //   //     (total, item) => (total += item.quantidade),
+  //   //     0,
+  //   //   );
+  //   //   vendido = info.getValue() - vendido;
+  //   //   return `${vendido}/${info.getValue()}`;
+  //   // },
+  //   meta: {
+  //     filterVariant: "range",
+  //   },
+  // },
+  // // {
+  // //   accessorKey: "Venda",
+  // //   cell: (info) => {
+  // //     info.getValue().map((item: Venda) => {
+  // //       return <div key={item.id}>{`${item.dia}: ${item.quantidade}`};</div>;
+  // //     });
+  // //   },
+  // // },
+  // {
+  //   header: "Ações",
+  //   cell: (info) => {
+  //     return (
+  //       <ButtonGroup>
+  //         <Button variant="success">
+  //           <FaCartPlus />
+  //         </Button>
+  //         <Button
+  //           variant="danger"
+  //           onClick={() => showConfirm(info.row.original.id)}
+  //         >
+  //           <MdDeleteForever />
+  //         </Button>
+  //       </ButtonGroup>
+  //     );
+  //   },
+  // },
 ];

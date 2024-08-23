@@ -9,22 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./db.db"
 }
 
 model Produto {
   id                Int      @id @default(autoincrement())
-  tipo              String   @db.VarChar(30)
-  nome              String   @db.VarChar(255)
-  cor               String   @db.VarChar(30)
-  raio              Float
-  isolacao          Int
-  bitola            Float
-  precoCompra       Float
-  precoVendaLiquido Float // preco_compra/0.6
-  precoVendaImposto Float // preco_venda_liquido/0,7275
-  quantidade        Int // em metros
+  tipo              String?
+  nome              String
+  cor               String?
+  raio              Float?
+  isolacao          Int?
+  bitola            Float?
+  precoCompra       Float?
+  precoVendaLiquido Float? // preco_compra/0.6
+  precoVendaImposto Float? // preco_venda_liquido/0,7275
+  quantidade        Int? // em metros
   Venda             Venda[]
   atualizado        DateTime @updatedAt
 }

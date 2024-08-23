@@ -8,7 +8,8 @@ export async function getData() {
     const data = await prisma.produto.findMany({ include: { Venda: true } });
     return data;
   } catch (error) {
-    console.log("Error Acessing database");
-    return [{ id: 0, nome: "Error Database" }];
+    console.error('Error Acessing database');
+    // console.log("Error Acessing database");
+    // return [{ id: 0, nome: "Error Database" }];
   }
 }

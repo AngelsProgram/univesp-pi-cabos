@@ -15,7 +15,7 @@ export async function insertItem(formData: FormData) {
 }
 
 export const insertProduto: SubmitHandler<Produto> = async function (
-  data
+  data,
 ): Promise<Produto | undefined> {
   try {
     const produto = await prisma.produto.create({ data });

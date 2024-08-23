@@ -105,7 +105,7 @@ export const columnsD: ColumnDef<Produto, any>[] = [
       const vendas: Venda[] = info.row.original?.Venda;
       let vendido = vendas.reduce(
         (total, item) => (total += item.quantidade),
-        0
+        0,
       );
       vendido = info.getValue() - vendido;
       return `${vendido}/${info.getValue()}`;

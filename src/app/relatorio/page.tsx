@@ -31,7 +31,7 @@ export default function Page() {
   const rerender = React.useReducer(() => ({}), {})[1];
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
 
   const columns = React.useMemo<ColumnDef<Produto, any>[]>(() => columnsD, []);
@@ -80,7 +80,7 @@ export default function Page() {
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                           {{
                             asc: " 🔼",
@@ -109,7 +109,7 @@ export default function Page() {
                     <td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </td>
                   );

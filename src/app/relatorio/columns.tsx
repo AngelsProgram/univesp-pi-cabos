@@ -101,15 +101,15 @@ export const columnsD: ColumnDef<Produto, any>[] = [
   {
     accessorKey: "quantidade",
     header: "quantidade (disponível/total)",
-    cell: (info) => {
-      const vendas: Venda[] = info.row.original?.Venda;
-      let vendido = vendas.reduce(
-        (total, item) => (total += item.quantidade),
-        0,
-      );
-      vendido = info.getValue() - vendido;
-      return `${vendido}/${info.getValue()}`;
-    },
+    // cell: (info) => {
+    //   const vendas: Venda[] = info.row.original?.Venda;
+    //   let vendido = vendas.reduce(
+    //     (total, item) => (total += item.quantidade),
+    //     0,
+    //   );
+    //   vendido = info.getValue() - vendido;
+    //   return `${vendido}/${info.getValue()}`;
+    // },
     meta: {
       filterVariant: "range",
     },

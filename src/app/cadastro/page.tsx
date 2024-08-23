@@ -16,23 +16,22 @@ export default function Page() {
   const { register, handleSubmit, reset, setValue } = useForm<Produto>();
 
   const onSubmit: SubmitHandler<Produto> = async function (data) {
-    insertProduto(data).then((value) => {
-      if (!value)
-        return Swal.fire({
-          title: "Error!",
-          text: "Ops... Aconteceu algum erro.",
-          icon: "error",
-          confirmButtonText: "Ok",
-          footer: "<a href=''>Entre em contato com um administrador</a>",
-        });
-      Swal.fire({
-        title: "Sucesso!",
-        text: "Produto cadastrado com sucesso.",
-        icon: "success",
+    const value = await insertProduto(data);
+    if (!value)
+      return Swal.fire({
+        title: "Error!",
+        text: "Ops... Aconteceu algum erro.",
+        icon: "error",
         confirmButtonText: "Ok",
+        footer: "<a href=''>Entre em contato com um administrador</a>",
       });
-      reset();
+    Swal.fire({
+      title: "Sucesso!",
+      text: "Produto cadastrado com sucesso.",
+      icon: "success",
+      confirmButtonText: "Ok",
     });
+    reset();
   };
 
   return (
